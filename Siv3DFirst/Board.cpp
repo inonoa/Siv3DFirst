@@ -1,17 +1,18 @@
 #include "Board.h"
+using namespace std;
 
 Board::Board(int width, int height)
 {
-	this->tiles = Array<Array<Tile*>>::IndexedGenerate(
+	this->transform = MakeUnique<Transform>(nullptr, Vec2(15, 15));
+	this->tiles = Array<Array<shared_ptr<Tile>>>::IndexedGenerate(
 		height,
-		[=](int i) -> Array<Tile*>
+		[=](int i)
 		{
-			return Array<Tile*>::IndexedGenerate(
+			return Array<shared_ptr<Tile>>::IndexedGenerate(
 				width, [=](int j) 
 				{
-					//0‚¶‚á‚È‚¢‚æ
-					Tile tile(nullptr, Vec2(15 + 50 * j, 15 + 50 * i));
-					return &tile;
+					//null‚¶‚á‚È‚¢‚æ
+					return MakeShared<Tile>(this->transform, Vec2(50 * j, 50 * i));
 				}
 			);
 		}
@@ -19,7 +20,7 @@ Board::Board(int width, int height)
 	this->selected = Vector2D<int>(0, 0);
 }
 
-Tile* Board::GetTile(int x, int y)
+shared_ptr<Tile> Board::GetTile(int x, int y)
 {
 	return tiles[y][x];
 }
@@ -54,5 +55,6 @@ void Board::Draw()
 		}
 	}
 
-	Rect(14 + 50 * selected.x, 14 + 50 * selected.y, 52, 52).draw(ColorF(0.2f, 0, 0.8f, 0.2f));
+
+	Rect(this->transform->WorldPos().x - 1 + 50 * selected.x, this->transform->WorldPos().y - 1 + 50 * selected.y, 52, 52).draw(ColorF(0.2f, 0, 0.8f, 0.2f));
 }

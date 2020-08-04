@@ -5,7 +5,7 @@ Transform::Transform(Vec2 localPos)
 	this->localPos = localPos;
 }
 
-Transform::Transform(Transform* parent, Vec2 localPos)
+Transform::Transform(std::shared_ptr<Transform> parent, Vec2 localPos)
 {
 	this->parent = parent;
 	this->localPos = localPos;
@@ -13,7 +13,7 @@ Transform::Transform(Transform* parent, Vec2 localPos)
 
 Vec2 Transform::WorldPos()
 {
-	if (parent)
+	if (parent != nullptr)
 	{
 		return parent->WorldPos() + localPos;
 	}

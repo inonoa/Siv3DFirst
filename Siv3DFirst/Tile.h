@@ -1,15 +1,16 @@
 #pragma once
 #include "Transform.h"
+#include <memory>
 
 class Tile
 {
 public:
-	Tile(Transform* parent, Vec2 localPos);
+	Tile(std::shared_ptr<Transform> parent, Vec2 localPos);
 	void Update();
 	void Draw();
 
 private:
-	Transform* transform;
+	std::shared_ptr<Transform> transform;
 	bool filled;
 };
 

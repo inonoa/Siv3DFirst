@@ -9,12 +9,13 @@ class Board
 {
 public:
 	Board(int width, int height);
-	Tile* GetTile(int x, int y);
+	std::shared_ptr<Tile> GetTile(int x, int y);
 	void Update();
 	void Draw();
 
 private:
-	Array<Array<Tile*>> tiles;
+	Array<Array<std::shared_ptr<Tile>>> tiles;
 	Vector2D<int> selected;
+	shared_ptr<Transform> transform;
 };
 
