@@ -113,6 +113,7 @@
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Piece_L.cpp" />
     <ClCompile Include="Piece_v.cpp" />
+    <ClCompile Include="Piece_X.cpp" />
     <ClCompile Include="TestClass.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Piece_L.h" />
     <ClInclude Include="Piece_v.h" />
+    <ClInclude Include="Piece_X.h" />
     <ClInclude Include="TestClass.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Transform.h" />
