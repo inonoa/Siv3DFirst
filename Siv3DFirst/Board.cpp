@@ -3,7 +3,7 @@ using namespace std;
 
 Board::Board(int width, int height)
 {
-	this->transform = MakeUnique<Transform>(nullptr, Vec2(15, 15));
+	this->transform = MakeUnique<Transform>(nullptr, Vec2(410, 15));
 	this->tiles = Array<Array<shared_ptr<Tile>>>::IndexedGenerate(
 		height,
 		[=](int i)
@@ -68,5 +68,9 @@ void Board::Draw()
 	}
 
 
-	Rect(this->transform->WorldPos().x - 1 + 50 * selected.x, this->transform->WorldPos().y - 1 + 50 * selected.y, 52, 52).draw(ColorF(0.2f, 0, 0.8f, 0.2f));
+	Rect(this->transform->WorldPos().x - 1 + 50 * selected.x,
+		this->transform->WorldPos().y - 1 + 50 * selected.y,
+		52,
+		52)
+		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
 }

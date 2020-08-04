@@ -111,6 +111,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="Piece_L.cpp" />
     <ClCompile Include="Piece_v.cpp" />
     <ClCompile Include="TestClass.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Piece.h" />
+    <ClInclude Include="Piece_L.h" />
     <ClInclude Include="Piece_v.h" />
     <ClInclude Include="TestClass.h" />
     <ClInclude Include="Tile.h" />

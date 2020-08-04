@@ -1,12 +1,24 @@
 #include "Tile.h"
 #include "Piece.h"
 #include "Piece_v.h"
+#include "Piece_L.h"
 #include <memory>
 
 Tile::Tile(std::shared_ptr<Transform> parent, Vec2 localPos)
 {
 	this->transform = MakeShared<Transform>(parent, localPos);
-	this->piece = RandomBool() ? MakeShared<Piece_v>() : nullptr;
+	int rd = Random<int>(0, 2);
+	switch (rd)
+	{
+	case 0:
+		break;
+	case 1:
+		this->piece = MakeShared<Piece_v>();
+		break;
+	case 2:
+		this->piece = MakeShared<Piece_L>();
+		break;
+	}
 }
 
 void Tile::Update()
