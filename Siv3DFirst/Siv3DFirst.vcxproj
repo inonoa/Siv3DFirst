@@ -110,6 +110,8 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="Piece_v.cpp" />
     <ClCompile Include="TestClass.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -240,6 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="Piece.h" />
+    <ClInclude Include="Piece_v.h" />
     <ClInclude Include="TestClass.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Transform.h" />

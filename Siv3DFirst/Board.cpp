@@ -43,6 +43,18 @@ void Board::Update()
 	{
 		selected = Vector2D<int>(selected.x, selected.y == tiles.size() - 1 ? selected.y : selected.y + 1);
 	}
+
+
+	if (KeyX.down())
+	{
+		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
+		if(p) p->Rotate(true);
+	}
+	if (KeyC.down())
+	{
+		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
+		if(p) p->Rotate(false);
+	}
 }
 
 void Board::Draw() 

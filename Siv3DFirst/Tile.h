@@ -1,5 +1,6 @@
 #pragma once
 #include "Transform.h"
+#include "Piece.h"
 #include <memory>
 
 class Tile
@@ -8,9 +9,10 @@ public:
 	Tile(std::shared_ptr<Transform> parent, Vec2 localPos);
 	void Update();
 	void Draw();
+	std::shared_ptr<Piece> GetPiece();
 
 private:
 	std::shared_ptr<Transform> transform;
-	bool filled;
+	std::shared_ptr<Piece> piece;
 };
 
