@@ -6,11 +6,11 @@ Piece_X::Piece_X(TFPtr transform) : Piece::Piece(transform)
 }
 
 
-void Piece_X::Draw(TFPtr transform)
+void Piece_X::Draw()
 {
-	DrawBG(transform);
-	DrawTriangle(Center(transform), RU(transform), RD(transform));
-	DrawTriangle(Center(transform), LD(transform), LU(transform));
+	DrawBG();
+	DrawTriangle(Center(), RU(), RD());
+	DrawTriangle(Center(), LD(), LU());
 }
 
 void Piece_X::Update()

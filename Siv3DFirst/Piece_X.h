@@ -6,7 +6,7 @@ class Piece_X :
 public:
     Piece_X(TFPtr transform);
     void Update();
-    void Draw(TFPtr transform);
+    void Draw();
     bool CanJoint(enum Direction direction);
 };
 

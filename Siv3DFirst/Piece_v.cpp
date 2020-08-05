@@ -10,10 +10,10 @@ void Piece_v::Update()
 	//
 }
 
-void Piece_v::Draw(std::shared_ptr<class Transform> transform)
+void Piece_v::Draw()
 {
-	DrawBG(transform);
-	DrawTriangle(Center(transform), LU(transform), RU(transform));
+	DrawBG();
+	DrawTriangle(Center(), LU(), RU());
 }
 
 bool Piece_v::CanJoint(enum Direction direction)

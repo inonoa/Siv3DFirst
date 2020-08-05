@@ -10,7 +10,7 @@ class Piece
 {
 public:
 	Piece(TFPtr transform);
-	virtual void Draw(TFPtr transform) = 0;
+	virtual void Draw() = 0;
 	virtual void Update() = 0;
 	virtual bool CanJoint(Direction direction) = 0;
 	void Rotate(bool clockwise);
@@ -20,13 +20,13 @@ public:
 	TFPtr GetTF();
 
 protected:
-	void DrawBG(TFPtr transform);
+	void DrawBG();
 	void DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3);
-	Vec2 Center(TFPtr transform);
-	Vec2 RU(TFPtr transform);
-	Vec2 RD(TFPtr transform);
-	Vec2 LU(TFPtr transform);
-	Vec2 LD(TFPtr transform);
+	Vec2 Center();
+	Vec2 RU();
+	Vec2 RD();
+	Vec2 LU();
+	Vec2 LD();
 	double angle_rad;
 	Direction Direction();
 	TFPtr transform;

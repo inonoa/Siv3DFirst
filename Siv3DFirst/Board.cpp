@@ -84,18 +84,18 @@ void Board::Draw()
 		}
 	}
 
-	for (int i = 0; i < pieces_falling->size(); i++)
-	{
-		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
-		(*arr)[i]->Draw((*arr)[i]->GetTF());
-	}
-
 	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
 	Rect(selectedPos.x - 26,
 		selectedPos.y - 26,
 		52,
 		52)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
+
+	for (int i = 0; i < pieces_falling->size(); i++)
+	{
+		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
+		(*arr)[i]->Draw();
+	}
 }
 
 void Board::SpawnPiece(int x)

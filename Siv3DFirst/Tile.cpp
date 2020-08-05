@@ -11,7 +11,7 @@ Tile::Tile(std::shared_ptr<Transform> parent, Vec2 localPos)
 {
 	this->transform = MakeShared<Transform>(parent, localPos);
 
-	RandomGenerate();
+	//RandomGenerate();
 }
 
 void Tile::RandomGenerate()
@@ -49,7 +49,7 @@ void Tile::Draw()
 	Vec2 pos = transform->WorldPos();
 	if (piece)
 	{
-		piece->Draw(transform);
+		piece->Draw();
 		Vec2 lu = pos + Vec2(-24, -24);
 		Vec2 ld = pos + Vec2(-24, 24);
 		Vec2 ru = pos + Vec2(24, -24);

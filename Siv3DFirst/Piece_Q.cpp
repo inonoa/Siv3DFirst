@@ -10,7 +10,7 @@ void Piece_Q::Update()
 	//
 }
 
-void Piece_Q::Draw(TFPtr transform)
+void Piece_Q::Draw()
 {
 	Vec2 pos_bound = transform->WorldPos() - Vec2(24, 24);
 	Rect(pos_bound.x, pos_bound.y, 48, 48).draw(Piece::GREEN);

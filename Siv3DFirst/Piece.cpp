@@ -47,30 +47,30 @@ void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)
 	Triangle(v1.x, v1.y, v2.x, v2.y, v3.x, v3.y).draw(Piece::GREEN);
 }
 
-void Piece::DrawBG(TFPtr transform)
+void Piece::DrawBG()
 {
 	Vec2 pos = transform->WorldPos();
 	Rect(pos.x - 24, pos.y - 24, 48, 48).draw(Piece::WHITE);
 }
 
-Vec2 Piece::Center(TFPtr transform)
+Vec2 Piece::Center()
 {
 	return transform->WorldPos();
 }
 
-Vec2 Piece::RU(TFPtr transform)
+Vec2 Piece::RU()
 {
 	return transform->WorldPos() + Vec2(24, -24).rotated(-angle_rad);
 }
-Vec2 Piece::RD(TFPtr transform)
+Vec2 Piece::RD()
 {
 	return transform->WorldPos() + Vec2(24, 24).rotated(-angle_rad);
 }
-Vec2 Piece::LU(TFPtr transform)
+Vec2 Piece::LU()
 {
 	return transform->WorldPos() + Vec2(-24, -24).rotated(-angle_rad);
 }
-Vec2 Piece::LD(TFPtr transform)
+Vec2 Piece::LD()
 {
 	return transform->WorldPos() + Vec2(-24, 24).rotated(-angle_rad);
 }

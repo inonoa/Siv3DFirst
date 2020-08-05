@@ -10,12 +10,12 @@ void Piece_M::Update()
 	//
 }
 
-void Piece_M::Draw(TFPtr transform)
+void Piece_M::Draw()
 {
-	DrawBG(transform);
-	DrawTriangle(Center(transform), LD(transform), LU(transform));
-	DrawTriangle(Center(transform), RU(transform), RD(transform));
-	DrawTriangle(Center(transform), RD(transform), LD(transform));
+	DrawBG();
+	DrawTriangle(Center(), LD(), LU());
+	DrawTriangle(Center(), RU(), RD());
+	DrawTriangle(Center(), RD(), LD());
 }
 
 bool Piece_M::CanJoint(enum Direction direction)
