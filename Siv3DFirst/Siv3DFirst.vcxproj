@@ -109,9 +109,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Enums.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Piece_L.cpp" />
+    <ClCompile Include="Piece_M.cpp" />
+    <ClCompile Include="Piece_Q.cpp" />
     <ClCompile Include="Piece_v.cpp" />
     <ClCompile Include="Piece_X.cpp" />
     <ClCompile Include="TestClass.cpp" />
@@ -247,6 +250,8 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Piece_L.h" />
+    <ClInclude Include="Piece_M.h" />
+    <ClInclude Include="Piece_Q.h" />
     <ClInclude Include="Piece_v.h" />
     <ClInclude Include="Piece_X.h" />
     <ClInclude Include="TestClass.h" />

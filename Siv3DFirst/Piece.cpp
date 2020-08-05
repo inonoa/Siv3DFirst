@@ -5,7 +5,7 @@ ColorF Piece::GREEN(0.1, 0.8, 0.3, 1);
 
 Piece::Piece()
 {
-	angle_rad = 0;
+	angle_rad = Random<int>(0, 3) * 0.5_pi;
 }
 
 void Piece::Rotate(bool clockwise)

@@ -15,5 +15,6 @@ public:
 private:
 	std::shared_ptr<Transform> transform;
 	std::shared_ptr<Piece> piece;
+	void RandomGenerate();
 };
 

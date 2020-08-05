@@ -12,6 +12,7 @@ public:
 	Piece();
 	virtual void Draw(TFPtr transform) = 0;
 	virtual void Update() = 0;
+	virtual bool CanJoint(Direction direction) = 0;
 	void Rotate(bool clockwise);
 	static ColorF WHITE;
 	static ColorF GREEN;

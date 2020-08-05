@@ -1,5 +1,7 @@
 #pragma once
 
 enum Direction {
-	UP, RIGHT, DOWN, LEFT
+	RIGHT = 0, UP = 1, LEFT = 2, DOWN = 3
 };
+
+Direction Direction_rotated(Direction direction, Direction rotate);
