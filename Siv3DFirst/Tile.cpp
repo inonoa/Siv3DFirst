@@ -39,7 +39,7 @@ void Tile::Draw()
 	}
 	else
 	{
-		Rect(pos.x + 1, pos.y + 1, 48, 48)
+		Rect(pos.x - 24, pos.y - 24, 48, 48)
 			.draw(ColorF(0.75f, 0.75f, 0.95f));
 	}
 }
@@ -47,4 +47,9 @@ void Tile::Draw()
 std::shared_ptr<Piece> Tile::GetPiece()
 {
 	return piece;
+}
+
+std::shared_ptr<Transform> Tile::GetTransform()
+{
+	return this->transform;
 }

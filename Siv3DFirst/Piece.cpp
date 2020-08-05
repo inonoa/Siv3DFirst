@@ -30,27 +30,27 @@ void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)
 void Piece::DrawBG(TFPtr transform)
 {
 	Vec2 pos = transform->WorldPos();
-	Rect(pos.x + 1, pos.y + 1, 48, 48).draw(Piece::WHITE);
+	Rect(pos.x - 24, pos.y - 24, 48, 48).draw(Piece::WHITE);
 }
 
 Vec2 Piece::Center(TFPtr transform)
 {
-	return transform->WorldPos() + Vec2(25, 25);
+	return transform->WorldPos();
 }
 
 Vec2 Piece::RU(TFPtr transform)
 {
-	return transform->WorldPos() + Vec2(49, 1);
+	return transform->WorldPos() + Vec2(24, -24);
 }
 Vec2 Piece::RD(TFPtr transform)
 {
-	return transform->WorldPos() + Vec2(49, 49);
+	return transform->WorldPos() + Vec2(24, 24);
 }
 Vec2 Piece::LU(TFPtr transform)
 {
-	return transform->WorldPos() + Vec2(1, 1);
+	return transform->WorldPos() + Vec2(-24, -24);
 }
 Vec2 Piece::LD(TFPtr transform)
 {
-	return transform->WorldPos() + Vec2(1, 49);
+	return transform->WorldPos() + Vec2(-24, 24);
 }

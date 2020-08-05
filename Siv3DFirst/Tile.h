@@ -10,6 +10,7 @@ public:
 	void Update();
 	void Draw();
 	std::shared_ptr<Piece> GetPiece();
+	std::shared_ptr<Transform> GetTransform();
 
 private:
 	std::shared_ptr<Transform> transform;

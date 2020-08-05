@@ -3,7 +3,7 @@ using namespace std;
 
 Board::Board(int width, int height)
 {
-	this->transform = MakeUnique<Transform>(nullptr, Vec2(410, 15));
+	this->transform = MakeUnique<Transform>(nullptr, Scene::Center());
 	this->tiles = Array<Array<shared_ptr<Tile>>>::IndexedGenerate(
 		height,
 		[=](int i)
@@ -11,8 +11,9 @@ Board::Board(int width, int height)
 			return Array<shared_ptr<Tile>>::IndexedGenerate(
 				width, [=](int j) 
 				{
+					Vec2 bound = - Vec2(50, 50) * Vec2(width, height) / 2.0 + Vec2(25, 25);
 					//null‚¶‚á‚È‚¢‚æ
-					return MakeShared<Tile>(this->transform, Vec2(50 * j, 50 * i));
+					return MakeShared<Tile>(this->transform, bound + Vec2(50, 50) * Vec2(j, i));
 				}
 			);
 		}
@@ -67,9 +68,9 @@ void Board::Draw()
 		}
 	}
 
-
-	Rect(this->transform->WorldPos().x - 1 + 50 * selected.x,
-		this->transform->WorldPos().y - 1 + 50 * selected.y,
+	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
+	Rect(selectedPos.x - 26,
+		selectedPos.y - 26,
 		52,
 		52)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
