@@ -9,13 +9,15 @@ using TFPtr = std::shared_ptr<Transform>;
 class Piece
 {
 public:
-	Piece();
+	Piece(TFPtr transform);
 	virtual void Draw(TFPtr transform) = 0;
 	virtual void Update() = 0;
 	virtual bool CanJoint(Direction direction) = 0;
 	void Rotate(bool clockwise);
 	static ColorF WHITE;
 	static ColorF GREEN;
+	void Fall();
+	TFPtr GetTF();
 
 protected:
 	void DrawBG(TFPtr transform);
@@ -27,5 +29,6 @@ protected:
 	Vec2 LD(TFPtr transform);
 	double angle_rad;
 	Direction Direction();
+	TFPtr transform;
 };
 

@@ -3,9 +3,10 @@
 ColorF Piece::WHITE(0.95, 0.95, 0.95, 1);
 ColorF Piece::GREEN(0.1, 0.8, 0.3, 1);
 
-Piece::Piece()
+Piece::Piece(TFPtr transform)
 {
 	angle_rad = Random<int>(0, 3) * 0.5_pi;
+	this->transform = transform;
 }
 
 void Piece::Rotate(bool clockwise)
@@ -27,6 +28,18 @@ void Piece::Rotate(bool clockwise)
 	}
 	Print << angle_rad;
 	Print << Direction();
+}
+
+void Piece::Fall()
+{
+	double deltatime = Scene::DeltaTime();
+	double speed = 60;
+	transform->MovePos(0, deltatime * speed);
+}
+
+TFPtr Piece::GetTF()
+{
+	return transform;
 }
 
 void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)

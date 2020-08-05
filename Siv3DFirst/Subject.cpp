@@ -18,5 +18,5 @@ void Subject<T>::OnNext(T param)
 template <typename T>
 void Subject<T>::Subscribe(std::function<void(T)> action)
 {
-	this->actions->append(action);
+	this->actions << action;
 }

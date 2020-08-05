@@ -44,3 +44,8 @@ void Transform::SetWorldPos(double x, double y)
 		localPos = Vec2(x, y);
 	}
 }
+
+Vec2 Transform::LocalPos()
+{
+	return localPos;
+}

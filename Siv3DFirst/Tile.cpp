@@ -22,19 +22,19 @@ void Tile::RandomGenerate()
 	case 0:
 		break;
 	case 1:
-		this->piece = MakeShared<Piece_v>();
+		this->piece = MakeShared<Piece_v>(MakeShared<Transform>(this->transform, Vec2(0,0)));
 		break;
 	case 2:
-		this->piece = MakeShared<Piece_L>();
+		this->piece = MakeShared<Piece_L>(MakeShared<Transform>(this->transform, Vec2(0, 0)));
 		break;
 	case 3:
-		this->piece = MakeShared<Piece_X>();
+		this->piece = MakeShared<Piece_X>(MakeShared<Transform>(this->transform, Vec2(0, 0)));
 		break;
 	case 4:
-		this->piece = MakeShared<Piece_M>();
+		this->piece = MakeShared<Piece_M>(MakeShared<Transform>(this->transform, Vec2(0, 0)));
 		break;
 	case 5:
-		this->piece = MakeShared<Piece_Q>();
+		this->piece = MakeShared<Piece_Q>(MakeShared<Transform>(this->transform, Vec2(0, 0)));
 		break;
 	}
 }

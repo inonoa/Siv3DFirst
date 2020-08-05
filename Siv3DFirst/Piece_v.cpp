@@ -1,11 +1,16 @@
 #include "Piece_v.h"
 
+Piece_v::Piece_v(TFPtr transform) : Piece::Piece(transform)
+{
+	//
+}
+
 void Piece_v::Update()
 {
 	//
 }
 
-void Piece_v::Draw(std::shared_ptr<Transform> transform)
+void Piece_v::Draw(std::shared_ptr<class Transform> transform)
 {
 	DrawBG(transform);
 	DrawTriangle(Center(transform), LU(transform), RU(transform));

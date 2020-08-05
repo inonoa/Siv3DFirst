@@ -1,5 +1,10 @@
 #include "Piece_M.h"
 
+Piece_M::Piece_M(TFPtr transform) : Piece::Piece(transform)
+{
+	//
+}
+
 void Piece_M::Update()
 {
 	//

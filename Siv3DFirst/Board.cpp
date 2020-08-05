@@ -1,4 +1,7 @@
 #include "Board.h"
+#include "Piece_v.h"
+#include <Siv3D.hpp>
+#include <memory>
 using namespace std;
 
 Board::Board(int width, int height)
@@ -9,16 +12,17 @@ Board::Board(int width, int height)
 		[=](int i)
 		{
 			return Array<shared_ptr<Tile>>::IndexedGenerate(
-				width, [=](int j) 
+				width, [=](int j)
 				{
 					Vec2 bound = - Vec2(50, 50) * Vec2(width, height) / 2.0 + Vec2(25, 25);
-					//null‚¶‚á‚È‚¢‚æ
 					return MakeShared<Tile>(this->transform, bound + Vec2(50, 50) * Vec2(j, i));
 				}
 			);
 		}
 	);
 	this->selected = Vector2D<int>(0, 0);
+	pieces_falling = MakeShared<Array<std::shared_ptr<Piece>>>();
+	pieces_on_tile = MakeShared<Array<std::shared_ptr<Piece>>>();
 }
 
 shared_ptr<Tile> Board::GetTile(int x, int y)
@@ -56,6 +60,18 @@ void Board::Update()
 		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
 		if(p) p->Rotate(false);
 	}
+
+	if (KeyF.down())
+	{
+		SpawnPiece(selected.x);
+	}
+
+	
+	for (int i = 0; i < pieces_falling->size(); i ++)
+	{
+		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
+		(*arr)[i]->Fall();
+	}
 }
 
 void Board::Draw() 
@@ -68,10 +84,23 @@ void Board::Draw()
 		}
 	}
 
+	for (int i = 0; i < pieces_falling->size(); i++)
+	{
+		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
+		(*arr)[i]->Draw((*arr)[i]->GetTF());
+	}
+
 	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
 	Rect(selectedPos.x - 26,
 		selectedPos.y - 26,
 		52,
 		52)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
+}
+
+void Board::SpawnPiece(int x)
+{
+	Vec2 spawnPos = tiles[0][selected.x]->GetTransform()->LocalPos() - Vec2(0, 50);
+	shared_ptr<Piece> piece = MakeShared<Piece_v>(MakeShared<Transform>(this->transform, spawnPos));
+	pieces_falling.get()->operator<<(piece);
 }

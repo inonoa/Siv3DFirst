@@ -1,5 +1,11 @@
 #include "Piece_X.h"
 
+Piece_X::Piece_X(TFPtr transform) : Piece::Piece(transform)
+{
+	//
+}
+
+
 void Piece_X::Draw(TFPtr transform)
 {
 	DrawBG(transform);
