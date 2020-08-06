@@ -16,6 +16,7 @@ Tile::Tile(std::shared_ptr<Transform> parent, Vec2 localPos)
 
 void Tile::RandomGenerate()
 {
+	/*
 	int rd = Random<int>(0, 5);
 	switch (rd)
 	{
@@ -37,6 +38,7 @@ void Tile::RandomGenerate()
 		this->piece = MakeShared<Piece_Q>(MakeShared<Transform>(this->transform, Vec2(0, 0)));
 		break;
 	}
+	*/
 }
 
 void Tile::Update()

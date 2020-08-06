@@ -101,6 +101,9 @@ void Board::Draw()
 void Board::SpawnPiece(int x)
 {
 	Vec2 spawnPos = tiles[0][selected.x]->GetTransform()->LocalPos() - Vec2(0, 50);
-	shared_ptr<Piece> piece = MakeShared<Piece_v>(MakeShared<Transform>(this->transform, spawnPos));
+	TFPtr tf = MakeShared<Transform>(this->transform, spawnPos);
+	shared_ptr<PieceType> type = MakeShared<Piece_v>();
+	shared_ptr<Piece> piece = MakeShared<Piece>(tf, type);
+	type->SetPiece(piece);
 	pieces_falling.get()->operator<<(piece);
 }

@@ -3,10 +3,11 @@
 ColorF Piece::WHITE(0.95, 0.95, 0.95, 1);
 ColorF Piece::GREEN(0.1, 0.8, 0.3, 1);
 
-Piece::Piece(TFPtr transform)
+Piece::Piece(TFPtr transform, TypePtr type)
 {
 	angle_rad = Random<int>(0, 3) * 0.5_pi;
 	this->transform = transform;
+	this->type = type;
 }
 
 void Piece::Rotate(bool clockwise)
@@ -40,6 +41,21 @@ void Piece::Fall()
 TFPtr Piece::GetTF()
 {
 	return transform;
+}
+
+bool Piece::CanJoint(enum Direction direction)
+{
+	return type->CanJoint(direction);
+}
+
+void Piece::Draw()
+{
+	type->Draw();
+}
+
+void Piece::Update()
+{
+	//
 }
 
 void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)

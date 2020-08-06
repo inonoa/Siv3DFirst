@@ -1,11 +1,10 @@
 #pragma once
-#include "Piece.h"
+#include "PieceType.h"
 class Piece_X :
-    public Piece
+    public PieceType
 {
 public:
-    Piece_X(TFPtr transform);
-    void Update();
+    Piece_X();
     void Draw();
     bool CanJoint(enum Direction direction);
 };

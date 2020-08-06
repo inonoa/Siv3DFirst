@@ -1,6 +1,6 @@
 #include "Enums.h"
 
-Direction Direction_rotated(Direction direction, Direction rotate)
+Direction Direction_rotated(enum Direction direction, enum Direction rotate)
 {
 	switch (direction)
 	{
