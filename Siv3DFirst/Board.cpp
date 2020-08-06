@@ -87,6 +87,7 @@ void Board::Update()
 			{
 				// 着地！
 				p_falling->Land(p_falling->PosOnBoard().x, p_on_tile->PosOnBoard().y - 1);
+				tiles[p_on_tile->PosOnBoard().y - 1][p_falling->PosOnBoard().x]->SetPiece(p_falling);
 			}
 		}
 
@@ -95,6 +96,7 @@ void Board::Update()
 			//着地！
 			Print << U"着地！";
 			p_falling->Land(p_falling->PosOnBoard().x, gridsize.y - 1);
+			tiles[gridsize.y - 1][p_falling->PosOnBoard().x]->SetPiece(p_falling);
 		}
 	}
 }

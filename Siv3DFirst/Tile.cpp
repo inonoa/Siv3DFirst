@@ -79,3 +79,8 @@ std::shared_ptr<Transform> Tile::GetTransform()
 {
 	return this->transform;
 }
+
+void Tile::SetPiece(std::shared_ptr<Piece> piece)
+{
+	this->piece = piece;
+}
