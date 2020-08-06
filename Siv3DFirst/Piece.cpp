@@ -4,12 +4,13 @@
 ColorF Piece::WHITE(0.95, 0.95, 0.95, 1);
 ColorF Piece::GREEN(0.1, 0.8, 0.3, 1);
 
-Piece::Piece(TFPtr transform, TypePtr type)
+Piece::Piece(TFPtr transform, TypePtr type, int line_x)
 {
 	angle_rad = Random<int>(0, 3) * 0.5_pi;
 	this->transform = transform;
 	this->type = type;
 	this->state = State::Falling;
+	this->pos_on_board = Vector2D<int>(line_x, -1);
 }
 
 void Piece::Rotate(bool clockwise)
@@ -34,7 +35,7 @@ void Piece::Rotate(bool clockwise)
 void Piece::Fall()
 {
 	double deltatime = Scene::DeltaTime();
-	double speed = 60;
+	double speed = 100;
 	transform->MovePos(0, deltatime * speed);
 }
 
@@ -55,11 +56,13 @@ void Piece::Draw()
 
 void Piece::Update()
 {
+	/*
 	//‰ñ‚é
 	double angle_per_sec = 0.7_pi;
 	double dt = Scene::DeltaTime();
 	angle_rad += angle_per_sec * dt;
 	angle_rad = fmod(angle_rad, 2_pi);
+	*/
 
 	if (IsFalling()) Fall();
 }
@@ -115,4 +118,20 @@ double Piece::GetAngleRad()
 bool Piece::IsFalling()
 {
 	return state == State::Falling;
+}
+
+bool Piece::IsOnTile()
+{
+	return state == State::OnTile;
+}
+
+Vector2D<int> Piece::PosOnBoard()
+{
+	return pos_on_board;
+}
+
+void Piece::Land(int x, int y)
+{
+	pos_on_board = Vector2D<int>(x, y);
+	state = State::OnTile;
 }

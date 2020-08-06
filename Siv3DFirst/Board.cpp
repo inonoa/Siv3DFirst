@@ -73,25 +73,28 @@ void Board::Update()
 		(*arr)[i]->Update();
 	}
 
-	Array<shared_ptr<Piece>> falling = pieces->filter([](shared_ptr<Piece> p) { return   p->IsFalling(); });
-	Array<shared_ptr<Piece>> on_tile = pieces->filter([](shared_ptr<Piece> p) { return ! p->IsFalling(); }); //!か？
+	Array<shared_ptr<Piece>> falling = pieces->filter([](shared_ptr<Piece> p) { return p->IsFalling(); });
+	Array<shared_ptr<Piece>> on_tile = pieces->filter([](shared_ptr<Piece> p) { return p->IsOnTile(); });
 
+	//一気に10段とか落ちてきたときに1Fに一段ずつしか着地しない問題？
 	for (shared_ptr<Piece> p_falling : falling)
 	{
 		for (shared_ptr<Piece> p_on_tile : on_tile)
 		{
+
 			Vec2 dist_vec = p_on_tile->GetTF()->LocalPos() - p_falling->GetTF()->LocalPos();
-			if ((Math::Abs(dist_vec.x) < 0.01) && (dist_vec.y >= 50))
+			if ((Math::Abs(dist_vec.x) < 0.01) && (dist_vec.y <= 50))
 			{
 				// 着地！
-				Print << U"着地！";
+				p_falling->Land(p_falling->PosOnBoard().x, p_on_tile->PosOnBoard().y - 1);
 			}
 		}
 
-		if (p_falling->GetTF()->LocalPos().y >= gridsize.y / 2.0 * 50)
+		if (p_falling->GetTF()->LocalPos().y >= gridsize.y / 2.0 * 50 - 25)
 		{
 			//着地！
 			Print << U"着地！";
+			p_falling->Land(p_falling->PosOnBoard().x, gridsize.y - 1);
 		}
 	}
 }
@@ -125,7 +128,7 @@ void Board::SpawnPiece(int x)
 	Vec2 spawnPos = tiles[0][selected.x]->GetTransform()->LocalPos() - Vec2(0, 50);
 	TFPtr tf = MakeShared<Transform>(this->transform, spawnPos);
 	shared_ptr<PieceType> type = MakeShared<Piece_v>();
-	shared_ptr<Piece> piece = MakeShared<Piece>(tf, type);
+	shared_ptr<Piece> piece = MakeShared<Piece>(tf, type, x);
 	type->SetPiece(piece);
 	pieces.get()->operator<<(piece);
 }

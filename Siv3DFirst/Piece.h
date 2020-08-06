@@ -13,7 +13,7 @@ using TypePtr = std::shared_ptr<PieceType>;
 class Piece
 {
 public:
-	Piece(TFPtr transform, TypePtr type_);
+	Piece(TFPtr transform, TypePtr type_, int line_x);
 	void Draw();
 	void Update();
 	bool CanJoint(enum Direction direction);
@@ -32,6 +32,9 @@ public:
 	Direction Direction();
 	double GetAngleRad();
 	bool IsFalling();
+	bool IsOnTile();
+	Vector2D<int> PosOnBoard();
+	void Land(int x, int y);
 
 private:
 	double angle_rad;
@@ -39,5 +42,6 @@ private:
 	TypePtr type;
 	enum State { Falling, OnTile };
 	State state;
+	Vector2D<int> pos_on_board;
 };
 
