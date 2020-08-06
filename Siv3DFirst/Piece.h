@@ -30,6 +30,7 @@ public:
 	Vec2 LU();
 	Vec2 LD();
 	Direction Direction();
+	double GetAngleRad();
 
 private:
 	double angle_rad;

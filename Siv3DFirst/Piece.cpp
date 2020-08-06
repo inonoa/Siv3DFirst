@@ -1,4 +1,5 @@
 #include "Piece.h"
+#include <math.h>
 
 ColorF Piece::WHITE(0.95, 0.95, 0.95, 1);
 ColorF Piece::GREEN(0.1, 0.8, 0.3, 1);
@@ -55,7 +56,11 @@ void Piece::Draw()
 
 void Piece::Update()
 {
-	//
+	double angle_per_sec = 0.7_pi;
+	double dt = Scene::DeltaTime();
+
+	angle_rad += angle_per_sec * dt;
+	angle_rad = fmod(angle_rad, 2_pi);
 }
 
 void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)
@@ -66,7 +71,9 @@ void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)
 void Piece::DrawBG()
 {
 	Vec2 pos = transform->WorldPos();
-	Rect(pos.x - 24, pos.y - 24, 48, 48).draw(Piece::WHITE);
+	Rect(pos.x - 24, pos.y - 24, 48, 48)
+		.rotatedAt(transform->WorldPos(), -angle_rad)
+		.draw(Piece::WHITE);
 }
 
 Vec2 Piece::Center()
@@ -97,4 +104,9 @@ Direction Piece::Direction()
 	if (angle_rad < 0.75_pi) return Direction::UP;
 	if (angle_rad < 1.25_pi) return Direction::LEFT;
 	return Direction::DOWN;
+}
+
+double Piece::GetAngleRad()
+{
+	return angle_rad;
 }

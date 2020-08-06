@@ -71,6 +71,7 @@ void Board::Update()
 	{
 		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
 		(*arr)[i]->Fall();
+		(*arr)[i]->Update();
 	}
 }
 
