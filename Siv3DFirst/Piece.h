@@ -31,10 +31,13 @@ public:
 	Vec2 LD();
 	Direction Direction();
 	double GetAngleRad();
+	bool IsFalling();
 
 private:
 	double angle_rad;
 	TFPtr transform;
 	TypePtr type;
+	enum State { Falling, OnTile };
+	State state;
 };
 

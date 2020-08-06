@@ -9,6 +9,7 @@ Piece::Piece(TFPtr transform, TypePtr type)
 	angle_rad = Random<int>(0, 3) * 0.5_pi;
 	this->transform = transform;
 	this->type = type;
+	this->state = State::Falling;
 }
 
 void Piece::Rotate(bool clockwise)
@@ -28,8 +29,6 @@ void Piece::Rotate(bool clockwise)
 		this->angle_rad = clockwise ? 0 : 1_pi;
 		break;
 	}
-	Print << angle_rad;
-	Print << Direction();
 }
 
 void Piece::Fall()
@@ -56,11 +55,13 @@ void Piece::Draw()
 
 void Piece::Update()
 {
+	//‰ñ‚é
 	double angle_per_sec = 0.7_pi;
 	double dt = Scene::DeltaTime();
-
 	angle_rad += angle_per_sec * dt;
 	angle_rad = fmod(angle_rad, 2_pi);
+
+	if (IsFalling()) Fall();
 }
 
 void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)
@@ -109,4 +110,9 @@ Direction Piece::Direction()
 double Piece::GetAngleRad()
 {
 	return angle_rad;
+}
+
+bool Piece::IsFalling()
+{
+	return state == State::Falling;
 }

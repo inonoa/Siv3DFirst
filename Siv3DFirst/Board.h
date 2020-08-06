@@ -19,8 +19,8 @@ public:
 private:
 	Array<Array<std::shared_ptr<Tile>>> tiles;
 	Vector2D<int> selected;
+	Vector2D<int> gridsize;
 	shared_ptr<Transform> transform;
-	PiecesArray pieces_falling;
-	PiecesArray pieces_on_tile;
+	PiecesArray pieces;
 };
 

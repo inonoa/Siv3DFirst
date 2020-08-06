@@ -21,8 +21,8 @@ Board::Board(int width, int height)
 		}
 	);
 	this->selected = Vector2D<int>(0, 0);
-	pieces_falling = MakeShared<Array<std::shared_ptr<Piece>>>();
-	pieces_on_tile = MakeShared<Array<std::shared_ptr<Piece>>>();
+	this->gridsize = Vector2D<int>(width, height);
+	pieces = MakeShared<Array<std::shared_ptr<Piece>>>();
 }
 
 shared_ptr<Tile> Board::GetTile(int x, int y)
@@ -67,11 +67,32 @@ void Board::Update()
 	}
 
 	
-	for (int i = 0; i < pieces_falling->size(); i ++)
+	for (int i = 0; i < pieces->size(); i ++)
 	{
-		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
-		(*arr)[i]->Fall();
+		Array<shared_ptr<Piece>>* arr = pieces.get();
 		(*arr)[i]->Update();
+	}
+
+	Array<shared_ptr<Piece>> falling = pieces->filter([](shared_ptr<Piece> p) { return   p->IsFalling(); });
+	Array<shared_ptr<Piece>> on_tile = pieces->filter([](shared_ptr<Piece> p) { return ! p->IsFalling(); }); //!か？
+
+	for (shared_ptr<Piece> p_falling : falling)
+	{
+		for (shared_ptr<Piece> p_on_tile : on_tile)
+		{
+			Vec2 dist_vec = p_on_tile->GetTF()->LocalPos() - p_falling->GetTF()->LocalPos();
+			if ((Math::Abs(dist_vec.x) < 0.01) && (dist_vec.y >= 50))
+			{
+				// 着地！
+				Print << U"着地！";
+			}
+		}
+
+		if (p_falling->GetTF()->LocalPos().y >= gridsize.y / 2.0 * 50)
+		{
+			//着地！
+			Print << U"着地！";
+		}
 	}
 }
 
@@ -92,9 +113,9 @@ void Board::Draw()
 		52)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
 
-	for (int i = 0; i < pieces_falling->size(); i++)
+	for (int i = 0; i < pieces->size(); i++)
 	{
-		Array<shared_ptr<Piece>>* arr = pieces_falling.get();
+		Array<shared_ptr<Piece>>* arr = pieces.get();
 		(*arr)[i]->Draw();
 	}
 }
@@ -106,5 +127,5 @@ void Board::SpawnPiece(int x)
 	shared_ptr<PieceType> type = MakeShared<Piece_v>();
 	shared_ptr<Piece> piece = MakeShared<Piece>(tf, type);
 	type->SetPiece(piece);
-	pieces_falling.get()->operator<<(piece);
+	pieces.get()->operator<<(piece);
 }
