@@ -70,7 +70,7 @@ void Tile::Draw()
 			pos.y - Piece::green_width / 2.0,
 			Piece::green_width,
 			Piece::green_width)
-		.draw(ColorF(0.75f, 0.75f, 0.95f));
+		.draw(BGColor);
 	}
 }
 
@@ -93,3 +93,5 @@ void Tile::RemovePiece()
 {
 	this->piece = nullptr;
 }
+
+ColorF Tile::BGColor = ColorF(0.75f, 0.75f, 0.95f);

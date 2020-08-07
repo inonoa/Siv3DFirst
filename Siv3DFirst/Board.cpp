@@ -1,4 +1,5 @@
 ﻿#include "Board.h"
+#include "Piece.h"
 #include "Piece_v.h"
 #include <Siv3D.hpp>
 #include <memory>
@@ -237,10 +238,27 @@ void Board::Draw()
 		}
 	}
 
-	for (int i = 0; i < pieces->size(); i++)
+	for(int i = 0; i < tiles.size(); i++)
 	{
-		Array<shared_ptr<Piece>> arr = *(pieces.get());
-		arr[i]->Draw();
+		Vec2 leftPos = tiles[i][0]->GetTransform()->WorldPos() - Vec2(Piece::width, 0);
+		Triangle(
+			leftPos,
+			leftPos + Vec2(Piece::green_width/2.0,  Piece::green_width/2.0),
+			leftPos + Vec2(Piece::green_width/2.0, -Piece::green_width/2.0))
+		.draw(
+			((tiles[i][0]->GetPiece() != nullptr)
+			&& (tiles[i][0]->GetPiece()->CanJoint(Direction::LEFT)))
+			? Piece::GREEN : Tile::BGColor);
+
+		Vec2 rightPos = tiles[i][gridsize.x-1]->GetTransform()->WorldPos() + Vec2(Piece::width, 0);
+		Triangle(
+			rightPos,
+			rightPos - Vec2(Piece::green_width/2.0,  Piece::green_width/2.0),
+			rightPos - Vec2(Piece::green_width/2.0, -Piece::green_width/2.0))
+		.draw(
+			((tiles[i][gridsize.x-1]->GetPiece() != nullptr)
+			&& (tiles[i][gridsize.x-1]->GetPiece()->CanJoint(Direction::RIGHT)))
+			? Piece::GREEN : Tile::BGColor);
 	}
 
 	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
@@ -249,6 +267,12 @@ void Board::Draw()
 		Piece::width + 2,
 		Piece::width + 2)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
+
+	for (int i = 0; i < pieces->size(); i++)
+	{
+		Array<shared_ptr<Piece>> arr = *(pieces.get());
+		if(arr[i]->IsFalling()) arr[i]->Draw();
+	}
 }
 
 void Board::SpawnPiece(int x)

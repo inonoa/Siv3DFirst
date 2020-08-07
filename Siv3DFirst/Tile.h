@@ -13,6 +13,7 @@ public:
 	std::shared_ptr<Transform> GetTransform();
 	void SetPiece(std::shared_ptr<Piece> piece);
 	void RemovePiece();
+	static ColorF BGColor;
 
 private:
 	std::shared_ptr<Transform> transform;
