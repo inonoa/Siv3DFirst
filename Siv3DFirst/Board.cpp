@@ -6,7 +6,7 @@
 #include "PieceTypes.h"
 using namespace std;
 
-Board::Board(int width, int height)
+Board::Board(int width, int height, double spawnSpan)
 {
 	this->transform = MakeUnique<Transform>(nullptr, Scene::Center());
 	this->tiles = Array<Array<shared_ptr<Tile>>>::IndexedGenerate(
@@ -25,6 +25,9 @@ Board::Board(int width, int height)
 	this->selected = Vector2D<int>(0, 0);
 	this->gridsize = Vector2D<int>(width, height);
 	pieces = MakeShared<Array<std::shared_ptr<Piece>>>();
+	this->time = 0;
+	this->time_after_spawn = 0;
+	this->spawnSpan = spawnSpan;
 }
 
 shared_ptr<Tile> Board::GetTile(int x, int y)
@@ -34,6 +37,21 @@ shared_ptr<Tile> Board::GetTile(int x, int y)
 
 void Board::Update()
 {
+	time += Scene::DeltaTime();
+	if(pieces->all( [](auto p) { return p->IsOnTile(); } ) )
+	{
+		time_after_spawn += Scene::DeltaTime();
+		if(time_after_spawn >= spawnSpan)
+		{
+			time_after_spawn -= spawnSpan;
+			Array<bool> spawn = Array<bool>::Generate(gridsize.x, []() { return RandomBool(0.4); });
+			for(int i = 0; i < gridsize.x; i ++)
+			{
+				if(spawn[i]) SpawnPiece(i);
+			}
+		}
+	}
+
 	HandleInput();
 	
 	for (int i = 0; i < pieces->size(); i ++)
@@ -132,9 +150,9 @@ void Board::HandleInput()
 		if(p) p->Rotate(false);
 	}
 
-	if (KeyF.down()){
-		SpawnPiece(selected.x);
-	}
+	// if (KeyF.down()){
+	// 	  SpawnPiece(selected.x);
+	// }
 }
 
 bool Board::FormFigure(Array<Array<bool>>* checked, int x, int y)
@@ -277,7 +295,7 @@ void Board::Draw()
 
 void Board::SpawnPiece(int x)
 {
-	Vec2 spawnPos = tiles[0][selected.x]->GetTransform()->LocalPos() - Vec2(0, 50);
+	Vec2 spawnPos = tiles[0][x]->GetTransform()->LocalPos() - Vec2(0, 50);
 	TFPtr tf = MakeShared<Transform>(this->transform, spawnPos);
 
 	shared_ptr<PieceType> type = RandomPiece();

@@ -9,13 +9,13 @@ void Main()
 
 	Window::Resize(Size(1120, 630));
 
-	Board board(6, 12);
+	Board board(6, 12, 5);
 
 	while (System::Update())
 	{
 		if (KeyEscape.down())
 		{
-			Board next_board(6, 12);
+			Board next_board(6, 12, 5);
 			board = next_board;
 		}
 		board.Update();

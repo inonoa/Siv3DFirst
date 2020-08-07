@@ -10,7 +10,7 @@ using PiecesArray = shared_ptr<Array<std::shared_ptr<Piece>>>;
 class Board
 {
 public:
-	Board(int width, int height);
+	Board(int width, int height, double spawnSpan);
 	std::shared_ptr<Tile> GetTile(int x, int y);
 	void SpawnPiece(int x);
 	void Update();
@@ -25,5 +25,8 @@ private:
 	PiecesArray pieces;
 	void HandleInput();
 	shared_ptr<PieceType> RandomPiece();
+	double time;
+	double time_after_spawn;
+	double spawnSpan;
 };
 
