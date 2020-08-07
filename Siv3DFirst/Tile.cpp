@@ -84,3 +84,8 @@ void Tile::SetPiece(std::shared_ptr<Piece> piece)
 {
 	this->piece = piece;
 }
+
+void Tile::RemovePiece()
+{
+	this->piece = nullptr;
+}

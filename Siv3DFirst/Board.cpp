@@ -1,4 +1,4 @@
-#include "Board.h"
+Ôªø#include "Board.h"
 #include "Piece_v.h"
 #include <Siv3D.hpp>
 #include <memory>
@@ -32,40 +32,7 @@ shared_ptr<Tile> Board::GetTile(int x, int y)
 
 void Board::Update()
 {
-	if (KeyRight.down())
-	{
-		selected = Vector2D<int>(selected.x == tiles[0].size() - 1 ? selected.x : selected.x + 1, selected.y);
-	}
-	if (KeyLeft.down())
-	{
-		selected = Vector2D<int>(selected.x == 0 ? selected.x : selected.x - 1, selected.y);
-	}
-	if (KeyUp.down())
-	{
-		selected = Vector2D<int>(selected.x, selected.y == 0 ? selected.y : selected.y - 1);
-	}
-	if (KeyDown.down())
-	{
-		selected = Vector2D<int>(selected.x, selected.y == tiles.size() - 1 ? selected.y : selected.y + 1);
-	}
-
-
-	if (KeyX.down())
-	{
-		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
-		if(p) p->Rotate(true);
-	}
-	if (KeyC.down())
-	{
-		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
-		if(p) p->Rotate(false);
-	}
-
-	if (KeyF.down())
-	{
-		SpawnPiece(selected.x);
-	}
-
+	HandleInput();
 	
 	for (int i = 0; i < pieces->size(); i ++)
 	{
@@ -76,7 +43,7 @@ void Board::Update()
 	Array<shared_ptr<Piece>> falling = pieces->filter([](shared_ptr<Piece> p) { return p->IsFalling(); });
 	Array<shared_ptr<Piece>> on_tile = pieces->filter([](shared_ptr<Piece> p) { return p->IsOnTile(); });
 
-	//àÍãCÇ…10íiÇ∆Ç©óéÇøÇƒÇ´ÇΩÇ∆Ç´Ç…1FÇ…àÍíiÇ∏Ç¬ÇµÇ©íÖínÇµÇ»Ç¢ñ‚ëËÅH
+	//‰∏çÂçÅÂàÜ
 	for (shared_ptr<Piece> p_falling : falling)
 	{
 		for (shared_ptr<Piece> p_on_tile : on_tile)
@@ -85,7 +52,6 @@ void Board::Update()
 			Vec2 dist_vec = p_on_tile->GetTF()->LocalPos() - p_falling->GetTF()->LocalPos();
 			if ((Math::Abs(dist_vec.x) < 0.01) && (dist_vec.y <= 50))
 			{
-				// íÖínÅI
 				p_falling->Land(p_falling->PosOnBoard().x, p_on_tile->PosOnBoard().y - 1);
 				tiles[p_on_tile->PosOnBoard().y - 1][p_falling->PosOnBoard().x]->SetPiece(p_falling);
 				Vec2 tilePos = tiles[p_on_tile->PosOnBoard().y - 1][p_falling->PosOnBoard().x]
@@ -96,8 +62,7 @@ void Board::Update()
 
 		if (p_falling->GetTF()->LocalPos().y >= gridsize.y / 2.0 * 50 - 25)
 		{
-			//íÖínÅI
-			Print << U"íÖínÅI";
+			Print << U"ÁùÄÂú∞";
 			p_falling->Land(p_falling->PosOnBoard().x, gridsize.y - 1);
 			tiles[gridsize.y - 1][p_falling->PosOnBoard().x]->SetPiece(p_falling);
 			Vec2 tilePos = tiles[gridsize.y - 1][p_falling->PosOnBoard().x]
@@ -105,6 +70,149 @@ void Board::Update()
 			p_falling->GetTF()->SetWorldPos(tilePos.x, tilePos.y);
 		}
 	}
+	
+	Array<shared_ptr<Piece>> toBeRemoved;
+	for (shared_ptr<Piece> p_on_tile : on_tile)
+	{
+		if(tiles[p_on_tile->PosOnBoard().y][p_on_tile->PosOnBoard().x]->GetPiece() == nullptr){ continue; }
+		Array<Array<bool>> checked(gridsize.y, Array<bool>(gridsize.x, false));
+		if (FormFigure(&checked, p_on_tile->PosOnBoard().x, p_on_tile->PosOnBoard().y))
+		{
+			for(int i = 0; i < gridsize.y; i++)
+			{
+				for(int j = 0; j < gridsize.x; j++)
+				{
+					if(checked[i][j])
+					{
+						toBeRemoved << tiles[i][j]->GetPiece();
+						tiles[i][j]->RemovePiece();
+					}
+				}
+			}
+		}
+	}
+	pieces->remove_if([=](auto p){ return toBeRemoved.includes(p); });
+}
+
+void Board::HandleInput()
+{
+	if (KeyRight.down()){
+		selected = Vector2D<int>(selected.x == tiles[0].size() - 1 ? selected.x : selected.x + 1, selected.y);
+	}
+	if (KeyLeft.down()){
+		selected = Vector2D<int>(selected.x == 0 ? selected.x : selected.x - 1, selected.y);
+	}
+	if (KeyUp.down()){
+		selected = Vector2D<int>(selected.x, selected.y == 0 ? selected.y : selected.y - 1);
+	}
+	if (KeyDown.down()){
+		selected = Vector2D<int>(selected.x, selected.y == tiles.size() - 1 ? selected.y : selected.y + 1);
+	}
+
+
+	if (KeyX.down()){
+		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
+		if(p) p->Rotate(true);
+	}
+	if (KeyC.down()){
+		shared_ptr<Piece> p = tiles[selected.y][selected.x]->GetPiece();
+		if(p) p->Rotate(false);
+	}
+
+	if (KeyF.down()){
+		SpawnPiece(selected.x);
+	}
+}
+
+bool Board::FormFigure(Array<Array<bool>>* checked, int x, int y)
+{
+
+	(*checked)[y][x] = true;
+
+	bool ans = true;
+
+	if (tiles[y][x]->GetPiece()->CanJoint(Direction::RIGHT))
+	{
+		if (x < gridsize.x - 1)
+		{
+			if (tiles[y][x + 1]->GetPiece() == nullptr){ ans = false; }
+			else
+			{
+				if (!tiles[y][x + 1]->GetPiece()->CanJoint(Direction::LEFT)) { ans = false; }
+				else
+				{
+					if (!(*checked)[y][x + 1])
+					{
+						ans &= FormFigure(checked, x + 1, y);
+					}
+				}
+			}
+		}
+	}
+	if (tiles[y][x]->GetPiece()->CanJoint(Direction::LEFT))
+	{
+		if (x > 0)
+		{
+			if (tiles[y][x - 1]->GetPiece() == nullptr) { ans = false; }
+			else
+			{
+				if (!tiles[y][x - 1]->GetPiece()->CanJoint(Direction::RIGHT)) { ans = false; }
+				else
+				{
+					if (!(*checked)[y][x - 1])
+					{
+						ans &= FormFigure(checked, x - 1, y);
+					}
+				}
+			}
+		}
+	}
+	if (tiles[y][x]->GetPiece()->CanJoint(Direction::UP))
+	{
+		if (y > 0)
+		{
+			if (tiles[y - 1][x]->GetPiece() == nullptr) { ans = false; }
+			else
+			{
+				if (!tiles[y - 1][x]->GetPiece()->CanJoint(Direction::DOWN)) { ans = false; }
+				else
+				{
+					if (!(*checked)[y - 1][x])
+					{
+						ans &= FormFigure(checked, x, y - 1);
+					}
+				}
+			}
+		}
+		else
+		{
+			ans = false;
+		}
+	}
+	if (tiles[y][x]->GetPiece()->CanJoint(Direction::DOWN))
+	{
+		if (y < gridsize.y - 1)
+		{
+			if (tiles[y + 1][x]->GetPiece() == nullptr) { ans = false; }
+			else
+			{
+				if (!tiles[y + 1][x]->GetPiece()->CanJoint(Direction::UP)) { ans = false; }
+				else
+				{
+					if (!(*checked)[y + 1][x])
+					{
+						ans &= FormFigure(checked, x, y + 1);
+					}
+				}
+			}
+		}
+		else
+		{
+			ans = false;
+		}
+	}
+
+	return ans;
 }
 
 void Board::Draw() 

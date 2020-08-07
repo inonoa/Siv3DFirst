@@ -5,3 +5,5 @@ enum Direction {
 };
 
 Direction Direction_rotated(Direction direction, Direction rotate);
+
+Direction Opposite(Direction direction);

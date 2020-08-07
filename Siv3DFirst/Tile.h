@@ -12,6 +12,7 @@ public:
 	std::shared_ptr<Piece> GetPiece();
 	std::shared_ptr<Transform> GetTransform();
 	void SetPiece(std::shared_ptr<Piece> piece);
+	void RemovePiece();
 
 private:
 	std::shared_ptr<Transform> transform;

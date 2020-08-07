@@ -42,3 +42,22 @@ Direction Direction_rotated(enum Direction direction, enum Direction rotate)
 		break;
 	}
 }
+
+Direction Opposite(Direction direction)
+{
+	switch (direction)
+	{
+	case Direction::RIGHT:
+		return Direction::LEFT;
+		break;
+	case Direction::UP:
+		return Direction::DOWN;
+		break;
+	case Direction::LEFT:
+		return Direction::RIGHT;
+		break;
+	case Direction::DOWN:
+		return Direction::UP;
+		break;
+	}
+}

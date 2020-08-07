@@ -15,6 +15,7 @@ public:
 	void SpawnPiece(int x);
 	void Update();
 	void Draw();
+	bool FormFigure(Array<Array<bool>>* checked_, int x, int y);
 
 private:
 	Array<Array<std::shared_ptr<Tile>>> tiles;
@@ -22,5 +23,6 @@ private:
 	Vector2D<int> gridsize;
 	shared_ptr<Transform> transform;
 	PiecesArray pieces;
+	void HandleInput();
 };
 
