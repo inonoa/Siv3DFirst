@@ -239,8 +239,8 @@ void Board::Draw()
 
 	for (int i = 0; i < pieces->size(); i++)
 	{
-		Array<shared_ptr<Piece>>* arr = pieces.get();
-		(*arr)[i]->Draw();
+		Array<shared_ptr<Piece>> arr = *(pieces.get());
+		arr[i]->Draw();
 	}
 
 	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
