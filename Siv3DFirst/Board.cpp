@@ -15,8 +15,8 @@ Board::Board(int width, int height)
 			return Array<shared_ptr<Tile>>::IndexedGenerate(
 				width, [=](int j)
 				{
-					Vec2 bound = - Vec2(50, 50) * Vec2(width, height) / 2.0 + Vec2(25, 25);
-					return MakeShared<Tile>(this->transform, bound + Vec2(50, 50) * Vec2(j, i));
+					Vec2 bound = - Vec2(Piece::width, Piece::width) * Vec2(width, height) / 2.0 + Vec2(Piece::width / 2.0, Piece::width / 2.0);
+					return MakeShared<Tile>(this->transform, bound + Vec2(Piece::width, Piece::width) * Vec2(j, i));
 				}
 			);
 		}
@@ -51,7 +51,7 @@ void Board::Update()
 		{
 
 			Vec2 dist_vec = p_on_tile->GetTF()->LocalPos() - p_falling->GetTF()->LocalPos();
-			if ((Math::Abs(dist_vec.x) < 0.01) && (dist_vec.y <= 50))
+			if ((Math::Abs(dist_vec.x) < 0.01) && (dist_vec.y <= Piece::width))
 			{
 				p_falling->Land(p_falling->PosOnBoard().x, p_on_tile->PosOnBoard().y - 1);
 				tiles[p_on_tile->PosOnBoard().y - 1][p_falling->PosOnBoard().x]->SetPiece(p_falling);
@@ -61,7 +61,7 @@ void Board::Update()
 			}
 		}
 
-		if (p_falling->GetTF()->LocalPos().y >= gridsize.y / 2.0 * 50 - 25)
+		if (p_falling->GetTF()->LocalPos().y >= gridsize.y / 2.0 * Piece::width - Piece::width / 2.0)
 		{
 			Print << U"着地";
 			p_falling->Land(p_falling->PosOnBoard().x, gridsize.y - 1);
@@ -244,10 +244,10 @@ void Board::Draw()
 	}
 
 	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
-	Rect(selectedPos.x - 26,
-		selectedPos.y - 26,
-		52,
-		52)
+	Rect(selectedPos.x - (Piece::width / 2.0 + 1),
+		selectedPos.y - (Piece::width / 2.0 + 1),
+		Piece::width + 2,
+		Piece::width + 2)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
 }
 

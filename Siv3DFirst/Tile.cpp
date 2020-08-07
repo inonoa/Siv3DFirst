@@ -65,8 +65,12 @@ void Tile::Draw()
 	}
 	else
 	{
-		Rect(pos.x - 24, pos.y - 24, 48, 48)
-			.draw(ColorF(0.75f, 0.75f, 0.95f));
+		Rect(
+			pos.x - Piece::green_width / 2.0,
+			pos.y - Piece::green_width / 2.0,
+			Piece::green_width,
+			Piece::green_width)
+		.draw(ColorF(0.75f, 0.75f, 0.95f));
 	}
 }
 

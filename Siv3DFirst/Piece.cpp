@@ -35,7 +35,7 @@ void Piece::Rotate(bool clockwise)
 void Piece::Fall()
 {
 	double deltatime = Scene::DeltaTime();
-	double speed = 100;
+	double speed = width * 2;
 	transform->MovePos(0, deltatime * speed);
 }
 
@@ -56,14 +56,6 @@ void Piece::Draw()
 
 void Piece::Update()
 {
-	/*
-	//���
-	double angle_per_sec = 0.7_pi;
-	double dt = Scene::DeltaTime();
-	angle_rad += angle_per_sec * dt;
-	angle_rad = fmod(angle_rad, 2_pi);
-	*/
-
 	if (IsFalling()) Fall();
 }
 
@@ -75,7 +67,7 @@ void Piece::DrawTriangle(Vec2 v1, Vec2 v2, Vec2 v3)
 void Piece::DrawBG()
 {
 	Vec2 pos = transform->WorldPos();
-	Rect(pos.x - 24, pos.y - 24, 48, 48)
+	Rect(pos.x - green_width / 2.0, pos.y - green_width / 2.0, green_width, green_width)
 		.rotatedAt(transform->WorldPos(), -angle_rad)
 		.draw(Piece::WHITE);
 }
@@ -87,19 +79,19 @@ Vec2 Piece::Center()
 
 Vec2 Piece::RU()
 {
-	return transform->WorldPos() + Vec2(24, -24).rotated(-angle_rad);
+	return transform->WorldPos() + Vec2(green_width / 2.0, -green_width / 2.0).rotated(-angle_rad);
 }
 Vec2 Piece::RD()
 {
-	return transform->WorldPos() + Vec2(24, 24).rotated(-angle_rad);
+	return transform->WorldPos() + Vec2(green_width / 2.0, green_width / 2.0).rotated(-angle_rad);
 }
 Vec2 Piece::LU()
 {
-	return transform->WorldPos() + Vec2(-24, -24).rotated(-angle_rad);
+	return transform->WorldPos() + Vec2(-green_width / 2.0, -green_width / 2.0).rotated(-angle_rad);
 }
 Vec2 Piece::LD()
 {
-	return transform->WorldPos() + Vec2(-24, 24).rotated(-angle_rad);
+	return transform->WorldPos() + Vec2(-green_width / 2.0, green_width / 2.0).rotated(-angle_rad);
 }
 
 Direction Piece::Direction()
@@ -140,3 +132,6 @@ void Piece::LoseGround()
 {
 	state = State::Falling;
 }
+
+double Piece::width = 50;
+double Piece::green_width = 48;

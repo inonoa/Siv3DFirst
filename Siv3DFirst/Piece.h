@@ -36,6 +36,8 @@ public:
 	Vector2D<int> PosOnBoard();
 	void Land(int x, int y);
 	void LoseGround();
+	static double width;
+	static double green_width;
 
 private:
 	double angle_rad;
