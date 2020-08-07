@@ -57,7 +57,7 @@ void Piece::Draw()
 void Piece::Update()
 {
 	/*
-	//‰ñ‚é
+	//ï¿½ï¿½ï¿½
 	double angle_per_sec = 0.7_pi;
 	double dt = Scene::DeltaTime();
 	angle_rad += angle_per_sec * dt;
@@ -134,4 +134,9 @@ void Piece::Land(int x, int y)
 {
 	pos_on_board = Vector2D<int>(x, y);
 	state = State::OnTile;
+}
+
+void Piece::LoseGround()
+{
+	state = State::Falling;
 }

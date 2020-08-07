@@ -24,5 +24,6 @@ private:
 	shared_ptr<Transform> transform;
 	PiecesArray pieces;
 	void HandleInput();
+	shared_ptr<PieceType> RandomPiece();
 };
 

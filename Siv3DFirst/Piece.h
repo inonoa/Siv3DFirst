@@ -35,6 +35,7 @@ public:
 	bool IsOnTile();
 	Vector2D<int> PosOnBoard();
 	void Land(int x, int y);
+	void LoseGround();
 
 private:
 	double angle_rad;

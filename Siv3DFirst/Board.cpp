@@ -2,6 +2,7 @@
 #include "Piece_v.h"
 #include <Siv3D.hpp>
 #include <memory>
+#include "PieceTypes.h"
 using namespace std;
 
 Board::Board(int width, int height)
@@ -88,6 +89,17 @@ void Board::Update()
 						tiles[i][j]->RemovePiece();
 					}
 				}
+			}
+		}
+	}
+	for(auto p : toBeRemoved)
+	{
+		Vector2D<int> pos = p->PosOnBoard();
+		for(int y = pos.y - 1; y > -1; y--){
+			if(tiles[y][pos.x]->GetPiece() != nullptr)
+			{
+				tiles[y][pos.x]->GetPiece()->LoseGround();
+				tiles[y][pos.x]->RemovePiece();
 			}
 		}
 	}
@@ -225,26 +237,48 @@ void Board::Draw()
 		}
 	}
 
+	for (int i = 0; i < pieces->size(); i++)
+	{
+		Array<shared_ptr<Piece>>* arr = pieces.get();
+		(*arr)[i]->Draw();
+	}
+
 	Vec2 selectedPos = tiles[selected.y][selected.x]->GetTransform()->WorldPos();
 	Rect(selectedPos.x - 26,
 		selectedPos.y - 26,
 		52,
 		52)
 		.draw(ColorF(0.1f, 0.2f, 0.9f, 0.2f));
-
-	for (int i = 0; i < pieces->size(); i++)
-	{
-		Array<shared_ptr<Piece>>* arr = pieces.get();
-		(*arr)[i]->Draw();
-	}
 }
 
 void Board::SpawnPiece(int x)
 {
 	Vec2 spawnPos = tiles[0][selected.x]->GetTransform()->LocalPos() - Vec2(0, 50);
 	TFPtr tf = MakeShared<Transform>(this->transform, spawnPos);
-	shared_ptr<PieceType> type = MakeShared<Piece_v>();
+
+	shared_ptr<PieceType> type = RandomPiece();
+
 	shared_ptr<Piece> piece = MakeShared<Piece>(tf, type, x);
 	type->SetPiece(piece);
 	pieces.get()->operator<<(piece);
+}
+
+shared_ptr<PieceType> Board::RandomPiece()
+{
+	int rd = Random<int>(0, 5);
+	switch (rd)
+	{
+	case 0:
+		return MakeShared<Piece_v>();
+	case 1:
+		return MakeShared<Piece_L>();
+	case 2:
+		return MakeShared<Piece_M>();
+	// case 3:
+	// 	  return MakeShared<Piece_X>();
+	// case 4:
+	// 	  return MakeShared<Piece_Q>();
+	default:
+		return RandomPiece();
+	}
 }

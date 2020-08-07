@@ -13,7 +13,7 @@ void Main()
 
 	while (System::Update())
 	{
-		if (KeyZ.down())
+		if (KeyEscape.down())
 		{
 			Board next_board(6, 12);
 			board = next_board;

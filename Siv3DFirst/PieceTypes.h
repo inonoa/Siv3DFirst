@@ -1,0 +1,5 @@
+﻿#include "Piece_L.h"
+#include "Piece_M.h"
+#include "Piece_Q.h"
+#include "Piece_X.h"
+#include "Piece_v.h"
